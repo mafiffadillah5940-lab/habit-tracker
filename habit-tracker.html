@@ -650,6 +650,16 @@ document.addEventListener('visibilitychange',()=>{
 });
 
 applyTheme();renderToday();
+
+/* mode offline: butuh file sw.js di folder yang sama */
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+    navigator.serviceWorker.ready.then(()=>{
+      try{if(!localStorage.getItem('habit_offline_ok')){localStorage.setItem('habit_offline_ok','1');setTimeout(()=>toast('Siap dipakai offline ✓'),1200)}}catch(_){}
+    }).catch(()=>{});
+  });
+}
 </script>
 </body>
 </html>
